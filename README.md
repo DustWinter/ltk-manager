@@ -1,154 +1,94 @@
-# LTK Manager
+# 🛠️ LTK Manager
 
-A desktop application for managing League of Legends mods built with Tauri v2 and React.
+The next-generation mod manager for League of Legends, built by the [League Toolkit](https://github.com/LeagueToolkit) organization. LTK Manager is the modern successor to [cslol-manager](https://github.com/LeagueToolkit/cslol-manager), rebuilt from the ground up with a Rust backend and a React-based UI.
 
-## Features
+[![Releases](https://img.shields.io/github/v/release/LeagueToolkit/ltk-manager?style=for-the-badge)](https://github.com/LeagueToolkit/ltk-manager/releases)
+[![License: MIT/Apache-2.0](https://img.shields.io/badge/License-MIT%2FApache--2.0-blue?style=for-the-badge)](https://github.com/LeagueToolkit/ltk-manager)
+[![Windows 10+](https://img.shields.io/badge/Windows-10+-0078D4?style=for-the-badge&logo=windows)](https://www.microsoft.com/windows)
 
-- 📚 **Mod Library** - Install, enable/disable, and manage your mods
-  - Supports `.modpkg` and `.fantome` file formats
-  - Thumbnail display for mods with images
-  - Click-to-toggle mod enable/disable
-  - Drag and drop installation
-- 🔍 **Mod Inspector** - View mod details before installing
-- 🎨 **Theming** - VS Code-inspired dark/light themes with accent color customization
-- 🛠️ **Creator Tools** - Create and package new mods (coming soon)
-- ⚙️ **Settings** - Configure League path, theme, and app preferences
+---
 
-## Development
+## 📸 Screenshots
+
+|                 Mod Library                  |                  Workshop                  |                  Settings                  |
+| :------------------------------------------: | :----------------------------------------: | :----------------------------------------: |
+| ![Mod Library](docs/screenshots/library.png) | ![Workshop](docs/screenshots/workshop.png) | ![Settings](docs/screenshots/settings.png) |
+
+---
+
+## ✨ Features
+
+- **Mod Library** — Install, enable, disable, reorder, and uninstall mods with a visual card-based interface. Supports drag-and-drop installation.
+- **Profile Management** — Create multiple profiles to quickly switch between different mod configurations.
+- **Workshop (Creator Tools)** — Build and package your own mods with a full project editor, layer management, and `.modpkg` export.
+- **Mod Inspector** — Preview mod contents and metadata before installing.
+- **Overlay Patcher** — Apply your mods to League of Legends with a single click. Real-time progress tracking keeps you informed.
+- **Automatic Updates** — The app checks for new versions and can update itself in the background.
+- **Theming** — Dark and light themes with a fully customizable accent color and optional backdrop images.
+
+### Supported Mod Formats
+
+| Format     | Description                                                                                                |
+| ---------- | ---------------------------------------------------------------------------------------------------------- |
+| `.modpkg`  | LeagueToolkit mod package — the recommended format with full metadata, thumbnails, and multi-layer support |
+| `.fantome` | Legacy Fantome format — automatically recognized and fully supported                                       |
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Rust](https://rustup.rs/) (1.70+)
-- [Node.js](https://nodejs.org/) (20+)
-- [pnpm](https://pnpm.io/)
+- **Windows 10 or 11** (64-bit). macOS and Linux support is planned.
+- **League of Legends** — a valid game installation.
 
-### Setup
+### Installation
 
-```bash
-# Navigate to the manager directory
-cd crates/ltk-manager
+1. Go to the [latest release](https://github.com/LeagueToolkit/ltk-manager/releases/latest).
+2. Download the `.msi` installer (recommended) or the NSIS `.exe` installer.
+3. Run the installer and launch **LTK Manager**.
+4. On first launch, the app will attempt to auto-detect your League of Legends installation. If it can't find it, you'll be prompted to select the game folder manually.
 
-# Install dependencies
-pnpm install
+### Installing Mods
 
-# Run in development mode
-pnpm tauri dev
-```
+1. Download a mod in `.modpkg` or `.fantome` format from your preferred source.
+2. Drag and drop the file onto the LTK Manager window, or use the install button.
+3. Enable the mod in your library and click **Run** to start the patcher.
 
-### Building
+---
 
-```bash
-# Build for production (executable + installers)
-pnpm tauri build
-```
+## ⚖️ License & Reuse
 
-The built application and installers will be in `src-tauri/target/release/bundle/`:
+LTK Manager is open-source under a dual **MIT / Apache-2.0** license — you may choose either.
 
-| Platform | Installer Path                           | Format             |
-| -------- | ---------------------------------------- | ------------------ |
-| Windows  | `bundle/nsis/LTK Manager_*-setup.exe`    | NSIS installer     |
-| Windows  | `bundle/msi/LTK Manager_*.msi`           | MSI installer      |
-| macOS    | `bundle/dmg/LTK Manager_*.dmg`           | DMG disk image     |
-| macOS    | `bundle/macos/LTK Manager.app`           | Application bundle |
-| Linux    | `bundle/deb/ltk-manager_*.deb`           | Debian package     |
-| Linux    | `bundle/appimage/ltk-manager_*.AppImage` | AppImage           |
+### `cslol-dll.dll` Policy
 
-To build a specific installer format only:
+This application bundles `cslol-dll.dll`, the core injection module originally from cslol-manager. Its use and redistribution are governed by the [CSLOL DLL License Addendum](LICENSE-CSLOL.md).
 
-```bash
-# Windows
-pnpm tauri build --bundles nsis
-pnpm tauri build --bundles msi
+If you are a developer looking to reuse this DLL in your own launcher or tool, you must comply with the following:
 
-# macOS
-pnpm tauri build --bundles dmg
-pnpm tauri build --bundles app
+1. **Re-signing** — You may not redistribute the DLL with the official signature. You must re-sign it using your own publicly trusted code-signing certificate.
+2. **Transparency** — You must publish your certificate's SHA-256 fingerprint and the DLL's SHA-256 hash in your project's documentation or about page.
+3. **Anti-Skinhacking** — You must implement technical measures to prevent the use of "skinhacking" (replicating paid content) and competitive advantage mods.
+4. **No Reverse Engineering** — Patching or tampering with the DLL itself is strictly prohibited.
 
-# Linux
-pnpm tauri build --bundles deb
-pnpm tauri build --bundles appimage
-```
+For full terms, see [LICENSE-CSLOL.md](LICENSE-CSLOL.md).
 
-For debug builds (faster, unoptimized):
+---
 
-```bash
-pnpm tauri build --debug
-```
+## ⚠️ Disclaimer
 
-## Project Structure
+- **Use at your own risk.** This software is not endorsed by or affiliated with Riot Games.
+- **Server support:** Officially supports Riot-operated servers. Asian servers and Garena are not officially supported and may experience issues.
 
-```
-ltk-manager/
-├── src/                    # React frontend
-│   ├── main.tsx           # React entry point
-│   ├── components/        # Reusable UI components
-│   │   ├── Sidebar.tsx    # Navigation sidebar
-│   │   ├── ModCard.tsx    # Mod display card with thumbnail
-│   │   └── Button.tsx     # Button components
-│   ├── pages/             # Page components
-│   │   ├── Library.tsx    # Mod library page
-│   │   └── Settings.tsx   # Settings page with theming
-│   ├── modules/           # Feature modules
-│   │   ├── library/       # Mod library API
-│   │   ├── settings/      # Settings and theming
-│   │   └── patcher/       # Mod patcher integration
-│   ├── lib/               # Utilities and API
-│   │   └── tauri.ts       # Tauri type definitions
-│   └── styles/            # CSS with Tailwind v4
-│       └── app.css        # Theme variables and styles
-├── public/                # Static assets
-├── src-tauri/             # Rust backend (Tauri)
-│   ├── Cargo.toml
-│   ├── tauri.conf.json    # Tauri configuration
-│   ├── capabilities/      # Tauri permissions
-│   └── src/
-│       ├── main.rs        # Tauri entry point
-│       ├── commands/      # IPC command handlers
-│       ├── mods/          # Mod management logic
-│       ├── patcher/       # Overlay patcher
-│       └── state.rs       # App state and settings
-├── package.json
-├── vite.config.ts
-└── index.html
-```
+---
 
-## Tech Stack
+## 🤝 Contributing
 
-- **Backend**: Rust, Tauri v2
-- **Frontend**: React 19, TypeScript, Vite
-- **Styling**: Tailwind CSS v4
-- **State**: TanStack Query, Zustand
+Contributions are welcome! Please open an issue or submit a pull request.
 
-## Tauri Commands
+If you'd like to build LTK Manager from source or work on the codebase, see the [Development Guide](docs/DEVELOPMENT.md).
 
-The following IPC commands are available from the frontend:
+---
 
-| Command                   | Description                          |
-| ------------------------- | ------------------------------------ |
-| `get_app_info`            | Get app name and version             |
-| `get_settings`            | Get current settings                 |
-| `save_settings`           | Save settings (theme, accent, paths) |
-| `auto_detect_league_path` | Auto-detect League installation      |
-| `validate_league_path`    | Validate a League path               |
-| `check_setup_required`    | Check if first-run setup is needed   |
-| `get_installed_mods`      | List installed mods with thumbnails  |
-| `install_mod`             | Install a .modpkg or .fantome file   |
-| `uninstall_mod`           | Uninstall a mod                      |
-| `toggle_mod`              | Enable/disable a mod                 |
-| `inspect_modpkg`          | Inspect a .modpkg file               |
-| `get_mod_thumbnail`       | Get mod thumbnail as base64 data URL |
-| `reveal_in_explorer`      | Open file location in explorer       |
-| `start_patcher`           | Start the overlay patcher            |
-| `stop_patcher`            | Stop the overlay patcher             |
-| `get_patcher_status`      | Get patcher running status           |
-
-## Supported Mod Formats
-
-- **`.modpkg`** - LeagueToolkit mod package format
-- **`.fantome`** - Legacy Fantome mod format (auto-converted)
-
-Both formats support:
-
-- Mod metadata (name, version, author, description)
-- Thumbnail images (displayed in mod library)
-- Multiple layers/variants
+Developed by the **[League Toolkit](https://github.com/LeagueToolkit)** organization.
