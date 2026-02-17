@@ -33,6 +33,7 @@ jobs:
         uses: release-plz/action@v0.5
         with:
           command: release-pr
+          manifest_path: src-tauri/Cargo.toml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -53,6 +54,7 @@ jobs:
         uses: release-plz/action@v0.5
         with:
           command: release
+          manifest_path: src-tauri/Cargo.toml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
