@@ -23,3 +23,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 """
+# Ensure pre-release tags (rc, beta, alpha) are recognized as changelog boundaries
+tag_pattern = "v[0-9].*"
+sort_commits = "newest"
+commit_parsers = [
+    { message = "^chore: release", skip = true },
+    { message = "^chore: bump version", skip = true },
+    { message = "^Merge pull request", skip = true },
+    { message = "^Merge branch", skip = true },
+    { message = "^feat", group = "Added" },
+    { message = "^fix", group = "Fixed" },
+    { message = "^perf", group = "Performance" },
+    { message = "^refactor", group = "Refactored" },
+    { message = "^docs", group = "Documentation" },
+    { message = ".*", group = "Other" },
+]

@@ -55,7 +55,7 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEEwQjBFRkU5MDdENUVENTIKUldSUzdkVUg2ZSt3b0pldjRGZUQ3WkgwcjU0M2d5N1pnRGlhR0NPODkyMWpyaTEvUFQvWWlpcVkK",
       "endpoints": [
-        "https://github.com/LeagueToolkit/ltk-manager/releases/latest/download/latest.json"
+        "https://github.com/LeagueToolkit/ltk-manager/releases/download/updater/latest.json"
       ],
       "windows": {
         "installMode": "passive"

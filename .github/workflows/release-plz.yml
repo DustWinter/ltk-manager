@@ -143,7 +143,10 @@ jobs:
           # v2 updater artifacts: .exe + .exe.sig (not .nsis.zip)
           $nsisExe = Get-ChildItem "$bundlePath/nsis/*.exe" | Select-Object -First 1
           $nsisSig = (Get-Content "$($nsisExe.FullName).sig" -Raw).Trim()
-          $downloadUrl = "https://github.com/LeagueToolkit/ltk-manager/releases/download/$tag/$($nsisExe.Name)"
+
+          # GitHub replaces spaces with dots in asset filenames, so match that in the URL
+          $assetName = $nsisExe.Name -replace ' ', '.'
+          $downloadUrl = "https://github.com/LeagueToolkit/ltk-manager/releases/download/$tag/$assetName"
 
           $latest = @{
             version  = $version
@@ -180,5 +183,22 @@ jobs:
           files: |
             src-tauri/target/release/bundle/msi/*.msi
             src-tauri/target/release/bundle/msi/*.msi.sig
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update stable updater release
+        if: steps.release_info.outputs.should_build == 'true'
+        shell: bash
+        run: |
+          # Create or update a pinned "updater" release that always serves the latest latest.json.
+          # The updater endpoint points here so it works regardless of GitHub's prerelease flag.
+          if gh release view updater &>/dev/null; then
+            gh release upload updater latest.json --clobber
+          else
+            gh release create updater latest.json \
+              --title "Updater" \
+              --notes "Auto-updated by CI. Contains the latest updater manifest for in-app updates." \
+              --latest=false
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
