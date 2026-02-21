@@ -1,5 +1,6 @@
 export * from "./ActiveFilterChips";
 export * from "./DragDropOverlay";
+export * from "./FilterBar";
 export * from "./FilterPopover";
 export * from "./ImportProgressDialog";
 export * from "./LibraryContent";

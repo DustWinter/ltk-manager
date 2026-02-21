@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import {
   DragDropOverlay,
+  FilterBar,
   ImportProgressDialog,
   LibraryContent,
   LibraryToolbar,
@@ -62,11 +63,11 @@ export function Library() {
           onStart: handleStartPatcher,
           onStop: handleStopPatcher,
         }}
-        filterOptions={filterOptions}
         hasEnabledMods={hasEnabledMods}
         isLoading={isLoading}
         isPatcherActive={isPatcherActive}
       />
+      <FilterBar filterOptions={filterOptions} />
       <LibraryContent
         mods={mods}
         searchQuery={searchQuery}

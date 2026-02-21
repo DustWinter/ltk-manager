@@ -17,6 +17,9 @@ interface LibraryFilterStore {
   toggleTag: (tag: string) => void;
   toggleChampion: (champion: string) => void;
   toggleMap: (map: string) => void;
+  setTags: (tags: Set<string>) => void;
+  setChampions: (champions: Set<string>) => void;
+  setMaps: (maps: Set<string>) => void;
   clearFilters: () => void;
   setSort: (sort: SortConfig) => void;
 }
@@ -50,6 +53,10 @@ export const useLibraryFilterStore = create<LibraryFilterStore>((set) => ({
       else next.add(map);
       return { selectedMaps: next };
     }),
+
+  setTags: (tags) => set({ selectedTags: tags }),
+  setChampions: (champions) => set({ selectedChampions: champions }),
+  setMaps: (maps) => set({ selectedMaps: maps }),
 
   clearFilters: () =>
     set({

@@ -7,7 +7,6 @@ import type { useLibraryActions } from "@/modules/library/api";
 import { useFilteredMods, useLibraryViewMode } from "@/modules/library/api";
 import { useHasActiveFilters, useLibraryFilterStore } from "@/stores";
 
-import { ActiveFilterChips } from "./ActiveFilterChips";
 import { ModCard } from "./ModCard";
 import { ModDetailsDialog } from "./ModDetailsDialog";
 import { SortableModCard } from "./SortableModCard";
@@ -75,7 +74,6 @@ export function LibraryContent({
 
   return (
     <>
-      <ActiveFilterChips />
       <div className="flex-1 overflow-auto p-6">
         <SortableModList
           mods={filteredMods}
