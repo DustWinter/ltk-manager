@@ -1,6 +1,9 @@
 mod inspect;
 mod library;
+mod migration;
 mod profiles;
+
+pub use migration::*;
 
 pub use inspect::{inspect_modpkg_file, ModpkgInfo};
 

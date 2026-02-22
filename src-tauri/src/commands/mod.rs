@@ -17,6 +17,7 @@
 //! See `docs/ERROR_HANDLING.md` for details.
 
 mod app;
+mod migration;
 mod mods;
 mod patcher;
 mod profiles;
@@ -25,6 +26,7 @@ mod shell;
 mod workshop;
 
 pub use app::*;
+pub use migration::*;
 pub use mods::*;
 pub use patcher::*;
 pub use profiles::*;

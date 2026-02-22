@@ -40,21 +40,29 @@ export function Settings() {
       <Tabs.Root defaultValue="general" className="flex min-h-0 flex-1 flex-row">
         <Tabs.List
           variant="pills"
-          className="w-52 shrink-0 flex-col items-stretch rounded-none border-r border-surface-600 bg-transparent p-3"
+          className="w-52 shrink-0 flex-col items-stretch rounded-none border-r border-surface-700/50 bg-surface-900/80 p-3"
         >
-          <Tabs.Tab variant="pills" value="general" className="flex items-center gap-2.5 text-left">
+          <Tabs.Tab
+            variant="pills"
+            value="general"
+            className="flex items-center gap-2.5 text-left data-active:bg-brand-500/15 data-active:text-brand-300"
+          >
             <LuSettings className="h-4 w-4 shrink-0" />
             General
           </Tabs.Tab>
           <Tabs.Tab
             variant="pills"
             value="appearance"
-            className="flex items-center gap-2.5 text-left"
+            className="flex items-center gap-2.5 text-left data-active:bg-brand-500/15 data-active:text-brand-300"
           >
             <LuPalette className="h-4 w-4 shrink-0" />
             Appearance
           </Tabs.Tab>
-          <Tabs.Tab variant="pills" value="about" className="flex items-center gap-2.5 text-left">
+          <Tabs.Tab
+            variant="pills"
+            value="about"
+            className="flex items-center gap-2.5 text-left data-active:bg-brand-500/15 data-active:text-brand-300"
+          >
             <LuInfo className="h-4 w-4 shrink-0" />
             About
           </Tabs.Tab>
@@ -63,7 +71,7 @@ export function Settings() {
         <div className="min-h-0 flex-1 overflow-auto">
           <Tabs.Panel value="general" className="mx-auto max-w-2xl space-y-8 p-6">
             {firstRun && !settings.leaguePath && (
-              <div className="flex items-start gap-3 rounded-lg border border-brand-500/30 bg-brand-500/10 p-4">
+              <div className="flex items-start gap-3 rounded-xl border border-brand-500/30 bg-brand-500/10 p-5">
                 <LuInfo className="mt-0.5 h-5 w-5 shrink-0 text-brand-400" />
                 <div>
                   <h3 className="font-medium text-brand-300">Welcome to LTK Manager!</h3>

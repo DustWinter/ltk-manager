@@ -125,4 +125,7 @@ pub struct Settings {
     /// Whether to patch TFT game files (Map22.wad.client). Default: false.
     #[serde(default)]
     pub patch_tft: bool,
+    /// Whether the user has dismissed the cslol-manager migration banner.
+    #[serde(default)]
+    pub migration_dismissed: bool,
 }
