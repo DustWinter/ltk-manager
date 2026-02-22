@@ -2,7 +2,7 @@ import { Select } from "@/components";
 import { type SortConfig, useLibraryFilterStore } from "@/stores";
 
 const SORT_OPTIONS = [
-  { value: "manual:asc", label: "Manual Order" },
+  { value: "priority:desc", label: "Priority" },
   { value: "name:asc", label: "Name (A-Z)" },
   { value: "name:desc", label: "Name (Z-A)" },
   { value: "installedAt:desc", label: "Newest First" },

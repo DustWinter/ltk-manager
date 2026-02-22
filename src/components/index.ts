@@ -4,6 +4,7 @@ export * from "./Combobox";
 export * from "./Dialog";
 export * from "./FormField";
 export * from "./Menu";
+export * from "./MultiSelect";
 export * from "./NavTabs";
 export * from "./Popover";
 export * from "./Progress";

@@ -26,7 +26,7 @@ export function useFilteredMods(mods: InstalledMod[], searchQuery: string): Inst
       result = result.filter((mod) => mod.maps.some((m) => selectedMaps.has(m)));
     }
 
-    if (sort.field === "manual") return result;
+    if (sort.field === "priority") return result;
 
     const sorted = [...result];
     const dir = sort.direction === "asc" ? 1 : -1;

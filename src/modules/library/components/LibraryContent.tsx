@@ -43,8 +43,8 @@ export function LibraryContent({
   const { sort } = useLibraryFilterStore();
 
   const isSearching = searchQuery.length > 0;
-  const isManualSort = sort.field === "manual";
-  const dndDisabled = isSearching || isPatcherActive || !isManualSort || hasActiveFilters;
+  const isPrioritySort = sort.field === "priority";
+  const dndDisabled = isSearching || isPatcherActive || !isPrioritySort || hasActiveFilters;
 
   if (isLoading) {
     return (

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type SortField = "manual" | "name" | "installedAt" | "enabled";
+export type SortField = "priority" | "name" | "installedAt" | "enabled";
 export type SortDirection = "asc" | "desc";
 
 export interface SortConfig {
@@ -28,7 +28,7 @@ export const useLibraryFilterStore = create<LibraryFilterStore>((set) => ({
   selectedTags: new Set(),
   selectedChampions: new Set(),
   selectedMaps: new Set(),
-  sort: { field: "manual", direction: "asc" },
+  sort: { field: "priority", direction: "desc" },
 
   toggleTag: (tag) =>
     set((state) => {
