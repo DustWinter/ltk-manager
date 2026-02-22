@@ -130,6 +130,9 @@ fn main() {
             commands::get_mod_thumbnail,
             commands::get_storage_directory,
             commands::reorder_mods,
+            // Migration
+            commands::scan_cslol_mods,
+            commands::import_cslol_mods,
             // Patcher
             commands::start_patcher,
             commands::stop_patcher,

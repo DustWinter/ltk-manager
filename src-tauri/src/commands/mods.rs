@@ -136,7 +136,7 @@ pub fn get_storage_directory(
 }
 
 /// Reject the operation if the patcher is currently running.
-fn reject_if_patcher_running(patcher: &State<PatcherState>) -> AppResult<()> {
+pub(super) fn reject_if_patcher_running(patcher: &State<PatcherState>) -> AppResult<()> {
     let state = patcher.0.lock().mutex_err()?;
     if state.is_running() {
         return Err(AppError::PatcherRunning);

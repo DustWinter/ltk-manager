@@ -45,7 +45,7 @@ export function ModStorageSection({ settings, onSave }: ModStorageSectionProps) 
             onClick={handleBrowse}
           />
         </div>
-        <p className="text-sm text-surface-500">
+        <p className="text-sm text-surface-400">
           Choose where your installed mods will be stored. Leave empty to use the default location.
         </p>
       </div>

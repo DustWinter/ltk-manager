@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 import type { Settings } from "@/lib/tauri";
+import { MigrationSection, MigrationWizardDialog } from "@/modules/migration";
 
 import { LeaguePathSection } from "./LeaguePathSection";
 import { ModStorageSection } from "./ModStorageSection";
@@ -11,12 +14,16 @@ interface GeneralSectionProps {
 }
 
 export function GeneralSection({ settings, onSave }: GeneralSectionProps) {
+  const [migrationOpen, setMigrationOpen] = useState(false);
+
   return (
     <div className="space-y-8">
       <LeaguePathSection settings={settings} onSave={onSave} />
       <PatchingSection settings={settings} onSave={onSave} />
       <ModStorageSection settings={settings} onSave={onSave} />
       <WorkshopSection settings={settings} onSave={onSave} />
+      <MigrationSection onImport={() => setMigrationOpen(true)} />
+      <MigrationWizardDialog open={migrationOpen} onClose={() => setMigrationOpen(false)} />
     </div>
   );
 }

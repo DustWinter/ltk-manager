@@ -38,6 +38,8 @@ pub enum ErrorCode {
     Wad,
     /// Operation blocked because the patcher is running
     PatcherRunning,
+    /// ZIP error
+    Zip,
 }
 
 /// Structured error response sent over IPC.
@@ -190,6 +192,9 @@ pub enum AppError {
 
     #[error("Cannot modify mods while the patcher is running")]
     PatcherRunning,
+
+    #[error("ZIP error: {0}")]
+    ZipError(#[from] zip::result::ZipError),
 }
 
 impl From<AppError> for AppErrorResponse {
@@ -256,6 +261,8 @@ impl From<AppError> for AppErrorResponse {
                 ErrorCode::PatcherRunning,
                 "Stop the patcher before modifying mods",
             ),
+
+            AppError::ZipError(e) => AppErrorResponse::new(ErrorCode::Zip, e.to_string()),
         }
     }
 }

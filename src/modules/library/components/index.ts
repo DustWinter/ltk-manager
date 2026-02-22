@@ -1,4 +1,6 @@
 export * from "./ActiveFilterChips";
+export * from "./BulkInstallProgress";
+export * from "./BulkInstallResults";
 export * from "./DragDropOverlay";
 export * from "./FilterBar";
 export * from "./FilterPopover";

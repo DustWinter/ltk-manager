@@ -33,6 +33,8 @@ export interface Settings {
   libraryViewMode: string | null;
   /** Whether to patch TFT game files (Map22.wad.client). Default: false. */
   patchTft: boolean;
+  /** Whether the user has dismissed the cslol-manager migration banner. */
+  migrationDismissed: boolean;
 }
 
 export interface InstalledMod {
@@ -90,6 +92,14 @@ export interface InstallProgress {
   current: number;
   total: number;
   currentFile: string;
+}
+
+export interface CslolModInfo {
+  folderName: string;
+  name: string;
+  author: string;
+  version: string;
+  description: string;
 }
 
 export interface PatcherConfig {
@@ -233,6 +243,12 @@ export const api = {
   getModThumbnail: (modId: string) => invokeResult<string | null>("get_mod_thumbnail", { modId }),
   getStorageDirectory: () => invokeResult<string>("get_storage_directory"),
   reorderMods: (modIds: string[]) => invokeResult<void>("reorder_mods", { modIds }),
+
+  // Migration
+  scanCslolMods: (directory: string) =>
+    invokeResult<CslolModInfo[]>("scan_cslol_mods", { directory }),
+  importCslolMods: (directory: string, selectedFolders: string[]) =>
+    invokeResult<BulkInstallResult>("import_cslol_mods", { directory, selectedFolders }),
 
   // Inspector
   inspectModpkg: (filePath: string) => invokeResult<ModpkgInfo>("inspect_modpkg", { filePath }),

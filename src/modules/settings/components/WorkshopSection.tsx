@@ -45,7 +45,7 @@ export function WorkshopSection({ settings, onSave }: WorkshopSectionProps) {
             onClick={handleBrowse}
           />
         </div>
-        <p className="text-sm text-surface-500">
+        <p className="text-sm text-surface-400">
           Choose where your mod projects will be stored for the Creator Workshop. This directory
           will contain all your project folders.
         </p>
