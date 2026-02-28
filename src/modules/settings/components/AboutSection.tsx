@@ -33,7 +33,7 @@ export function AboutSection({ appInfo }: AboutSectionProps) {
         </p>
         <div className="mt-4 flex gap-4 border-t border-surface-600 pt-4">
           <a
-            href="https://github.com/LeagueToolkit/league-mod"
+            href="https://github.com/LeagueToolkit/ltk-manager"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-brand-400 transition-colors hover:text-brand-300"
@@ -41,7 +41,7 @@ export function AboutSection({ appInfo }: AboutSectionProps) {
             View on GitHub →
           </a>
           <a
-            href="https://github.com/LeagueToolkit/league-mod/wiki"
+            href="https://github.com/LeagueToolkit/ltk-manager/wiki"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-brand-400 transition-colors hover:text-brand-300"

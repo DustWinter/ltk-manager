@@ -1,11 +1,21 @@
 import { Link } from "@tanstack/react-router";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { open } from "@tauri-apps/plugin-shell";
 import { useEffect, useState } from "react";
 import type { IconType } from "react-icons";
-import { LuHammer, LuLibrary, LuMinus, LuSettings, LuSquare, LuX } from "react-icons/lu";
+import {
+  LuAccessibility,
+  LuHammer,
+  LuLibrary,
+  LuMinus,
+  LuSettings,
+  LuSquare,
+  LuX,
+} from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 
-import { IconButton } from "@/components";
+import { IconButton, SimpleTooltip } from "@/components";
+import type { AppInfo } from "@/lib/tauri";
 
 import { NotificationCenter } from "./NotificationCenter";
 
@@ -53,12 +63,26 @@ function NavLink({
   );
 }
 
-interface TitleBarProps {
-  title?: string;
-  version?: string;
+function buildBugReportUrl(appInfo: AppInfo | undefined): string {
+  const base = "https://github.com/LeagueToolkit/ltk-manager/issues/new?template=bug_report.yml";
+  if (!appInfo) return base;
+
+  const params = new URLSearchParams();
+  params.set("template", "bug_report.yml");
+  params.set("version", appInfo.version);
+  params.set("os", `${appInfo.os} ${appInfo.arch}`);
+
+  return `https://github.com/LeagueToolkit/ltk-manager/issues/new?${params.toString()}`;
 }
 
-export function TitleBar({ title = "LTK Manager", version }: TitleBarProps) {
+interface TitleBarProps {
+  title?: string;
+  appInfo?: AppInfo;
+}
+
+export function TitleBar({ title = "LTK Manager", appInfo }: TitleBarProps) {
+  const version = appInfo?.version;
+  const bugReportUrl = buildBugReportUrl(appInfo);
   const [isMaximized, setIsMaximized] = useState(false);
   const appWindow = getCurrentWindow();
 
@@ -110,6 +134,17 @@ export function TitleBar({ title = "LTK Manager", version }: TitleBarProps) {
       {/* Right: Notifications, Settings, and window controls */}
       <div className="flex h-full items-center">
         <NotificationCenter />
+
+        <SimpleTooltip content="Report a Bug">
+          <IconButton
+            icon={<LuAccessibility className="h-5 w-5" />}
+            variant="ghost"
+            size="sm"
+            onClick={() => open(bugReportUrl)}
+            aria-label="Report a Bug"
+            className="text-surface-400 hover:text-surface-200"
+          />
+        </SimpleTooltip>
 
         {/* Settings button */}
         <Link

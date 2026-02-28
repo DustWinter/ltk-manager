@@ -9,6 +9,8 @@ pub struct AppInfo {
     pub name: String,
     pub version: String,
     pub log_file_path: Option<String>,
+    pub os: String,
+    pub arch: String,
 }
 
 /// Get basic app information.
@@ -20,5 +22,7 @@ pub fn get_app_info() -> IpcResult<AppInfo> {
         name: "LTK Manager".to_string(),
         version: env!("CARGO_PKG_VERSION").to_string(),
         log_file_path,
+        os: std::env::consts::OS.to_string(),
+        arch: std::env::consts::ARCH.to_string(),
     })
 }
