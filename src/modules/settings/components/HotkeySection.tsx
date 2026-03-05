@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LuKeyboard, LuX } from "react-icons/lu";
 
-import { Button, SectionCard, Switch, useToast } from "@/components";
+import { Button, ButtonGroup, IconButton, SectionCard, Switch, useToast } from "@/components";
 import { api, isErr, type Settings } from "@/lib/tauri";
 
 interface HotkeySectionProps {
@@ -144,10 +144,10 @@ function HotkeyInput({ label, description, value, onSet }: HotkeyInputProps) {
         <span className="block text-sm text-surface-400">{description}</span>
       </div>
 
-      <div className="flex shrink-0 items-center gap-2">
+      <ButtonGroup className="shrink-0">
         {isCapturing ? (
           <div
-            className="flex h-9 min-w-[140px] animate-pulse items-center justify-center rounded-lg border-2 border-brand-500 bg-brand-500/10 px-3 text-sm font-medium text-brand-300 outline-none"
+            className="flex h-8 min-w-[140px] animate-pulse items-center justify-center rounded-md border-2 border-brand-500 bg-brand-500/10 px-3 text-sm font-medium text-brand-300 outline-none"
             tabIndex={0}
             ref={(el: HTMLDivElement | null) => el?.focus()}
             onKeyDown={handleKeyDown}
@@ -168,17 +168,15 @@ function HotkeyInput({ label, description, value, onSet }: HotkeyInputProps) {
         )}
 
         {value && !isCapturing && (
-          <Button
-            variant="ghost"
+          <IconButton
+            variant="outline"
             size="sm"
+            icon={<LuX className="h-3.5 w-3.5" />}
             onClick={handleClear}
             loading={isPending}
-            left={<LuX className="h-3.5 w-3.5" />}
-          >
-            Clear
-          </Button>
+          />
         )}
-      </div>
+      </ButtonGroup>
     </div>
   );
 }
