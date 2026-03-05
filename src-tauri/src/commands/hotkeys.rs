@@ -36,7 +36,7 @@ fn register_reload_hotkey(app_handle: &AppHandle, accelerator: &str) -> AppResul
             ))
         })?;
 
-    tracing::info!("Registered reload-mods hotkey: {}", accelerator);
+    tracing::trace!("Registered reload-mods hotkey: {}", accelerator);
     Ok(())
 }
 
@@ -66,7 +66,7 @@ fn register_kill_hotkey(app_handle: &AppHandle, accelerator: &str) -> AppResult<
             ))
         })?;
 
-    tracing::info!("Registered kill-league hotkey: {}", accelerator);
+    tracing::trace!("Registered kill-league hotkey: {}", accelerator);
     Ok(())
 }
 
@@ -76,7 +76,7 @@ fn unregister_hotkey(app_handle: &AppHandle, accelerator: &str) {
     if let Err(e) = manager.unregister(accelerator) {
         tracing::warn!("Failed to unregister hotkey {}: {}", accelerator, e);
     } else {
-        tracing::info!("Unregistered global hotkey: {}", accelerator);
+        tracing::trace!("Unregistered global hotkey: {}", accelerator);
     }
 }
 
@@ -126,7 +126,7 @@ fn execute_hot_reload(app_handle: &AppHandle) -> AppResult<()> {
     let config = match last_config {
         Some(c) => c,
         None => {
-            tracing::info!("Hot reload: no previous patcher session, ignoring");
+            tracing::trace!("Hot reload: no previous patcher session, ignoring");
             return Ok(());
         }
     };
@@ -135,7 +135,7 @@ fn execute_hot_reload(app_handle: &AppHandle) -> AppResult<()> {
     {
         let ps = patcher_state.0.lock().mutex_err()?;
         if ps.is_running() {
-            tracing::info!("Hot reload: stopping patcher...");
+            tracing::trace!("Hot reload: stopping patcher...");
             ps.stop_flag.store(true, Ordering::SeqCst);
         }
     }
@@ -189,7 +189,7 @@ fn execute_kill_league(app_handle: &AppHandle) -> AppResult<()> {
     if should_stop_patcher {
         let ps = patcher_state.0.lock().mutex_err()?;
         if ps.is_running() {
-            tracing::info!("Kill league: also stopping patcher");
+            tracing::trace!("Kill league: also stopping patcher");
             ps.stop_flag.store(true, Ordering::SeqCst);
         }
         drop(ps);
@@ -216,7 +216,7 @@ fn pause_hotkeys_inner(app_handle: &AppHandle, settings: &State<SettingsState>) 
     if let Some(ref hotkey) = s.kill_league_hotkey {
         unregister_hotkey(app_handle, hotkey);
     }
-    tracing::info!("Paused all global hotkeys");
+    tracing::trace!("Paused all global hotkeys");
     Ok(())
 }
 
@@ -238,7 +238,7 @@ fn resume_hotkeys_inner(app_handle: &AppHandle, settings: &State<SettingsState>)
             tracing::error!("Failed to resume kill-league hotkey: {}", e);
         }
     }
-    tracing::info!("Resumed all global hotkeys");
+    tracing::trace!("Resumed all global hotkeys");
     Ok(())
 }
 
@@ -367,7 +367,7 @@ fn hot_reload_mods_inner(
     {
         let ps = state.0.lock().mutex_err()?;
         if ps.is_running() {
-            tracing::info!("Stopping patcher for hot reload...");
+            tracing::trace!("Stopping patcher for hot reload...");
             ps.stop_flag.store(true, Ordering::SeqCst);
         }
     }
@@ -510,7 +510,7 @@ fn try_lcu_reconnect(league_path: &Path) {
     let lockfile = match read_lockfile(league_path) {
         Some(data) => data,
         None => {
-            tracing::info!("No lockfile found, skipping LCU reconnect");
+            tracing::debug!("No lockfile found, skipping LCU reconnect");
             return;
         }
     };
@@ -551,7 +551,7 @@ fn try_lcu_reconnect(league_path: &Path) {
         }
     }
 
-    tracing::info!("LCU reconnect: all attempts exhausted (client may not need reconnect)");
+    tracing::debug!("LCU reconnect: all attempts exhausted (client may not need reconnect)");
 }
 
 /// Single attempt to reconnect via LCU API. Returns true on success.
