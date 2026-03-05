@@ -1,7 +1,7 @@
-import { listen, type UnlistenFn } from "@tauri-apps/api/event";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import { useToast } from "@/components";
+import { useTauriEvent } from "@/lib/useTauriEvent";
 import { usePatcherSessionStore } from "@/stores";
 
 /**
@@ -16,52 +16,23 @@ export function useHotkeyEvents() {
   const testingProjects = usePatcherSessionStore((s) => s.testingProjects);
   const setTestingProjects = usePatcherSessionStore((s) => s.setTestingProjects);
 
-  // Use a ref so the listener callback always sees the latest testing projects
-  // without needing to re-register the event listener on every change.
   const testingProjectsRef = useRef(testingProjects);
   testingProjectsRef.current = testingProjects;
 
-  useEffect(() => {
-    let mounted = true;
-    let unlistenReload: UnlistenFn | null = null;
-    let unlistenError: UnlistenFn | null = null;
+  useTauriEvent<string[] | null>("hotkey-reload-complete", (workshopPaths) => {
+    const current = testingProjectsRef.current;
 
-    listen<string[] | null>("hotkey-reload-complete", (event) => {
-      const workshopPaths = event.payload;
-      const current = testingProjectsRef.current;
+    if (workshopPaths && workshopPaths.length > 0 && current.length > 0) {
+      const pathSet = new Set(workshopPaths);
+      const stillTesting = current.filter((p) => pathSet.has(p.path));
 
-      // If the reload included workshop projects and we had testing projects before,
-      // re-set them so the StatusBar continues to show the testing label.
-      if (workshopPaths && workshopPaths.length > 0 && current.length > 0) {
-        const pathSet = new Set(workshopPaths);
-        const stillTesting = current.filter((p) => pathSet.has(p.path));
-
-        if (stillTesting.length > 0) {
-          setTestingProjects(stillTesting);
-        }
+      if (stillTesting.length > 0) {
+        setTestingProjects(stillTesting);
       }
-    }).then((fn) => {
-      if (mounted) {
-        unlistenReload = fn;
-      } else {
-        fn();
-      }
-    });
+    }
+  });
 
-    listen<string>("hotkey-error", (event) => {
-      toast.error("Hotkey Error", event.payload);
-    }).then((fn) => {
-      if (mounted) {
-        unlistenError = fn;
-      } else {
-        fn();
-      }
-    });
-
-    return () => {
-      mounted = false;
-      if (unlistenReload) unlistenReload();
-      if (unlistenError) unlistenError();
-    };
-  }, [toast, setTestingProjects]);
+  useTauriEvent<string>("hotkey-error", (message) => {
+    toast.error("Hotkey Error", message);
+  });
 }
