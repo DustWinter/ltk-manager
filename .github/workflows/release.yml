@@ -108,6 +108,9 @@ jobs:
           shared-key: release
           cache-on-failure: true
 
+      - name: Install trusted-signing-cli
+        run: cargo install trusted-signing-cli
+
       - name: Install frontend dependencies
         run: pnpm install --frozen-lockfile
 
@@ -131,6 +134,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         with:
           tagName: ${{ steps.version.outputs.tag }}
           releaseName: "LTK Manager v${{ steps.version.outputs.version }}"
