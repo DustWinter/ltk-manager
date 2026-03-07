@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { LuPlus, LuX } from "react-icons/lu";
+import { LuPlus, LuShieldCheck, LuX } from "react-icons/lu";
 
-import { Button, SectionCard } from "@/components";
+import { Button, Field, IconButton, SectionCard } from "@/components";
 import type { Settings } from "@/lib/tauri";
 
 interface TrustedDomainsSectionProps {
@@ -33,7 +33,7 @@ export function TrustedDomainsSection({ settings, onSave }: TrustedDomainsSectio
   }
 
   return (
-    <SectionCard title="Trusted Mod Providers">
+    <SectionCard title="Trusted Mod Providers" icon={<LuShieldCheck className="h-5 w-5" />}>
       <div className="space-y-3">
         <p className="text-sm text-surface-400">
           Only mods from these domains can be installed via one-click links. Remove all domains to
@@ -47,25 +47,25 @@ export function TrustedDomainsSection({ settings, onSave }: TrustedDomainsSectio
               className="flex items-center justify-between rounded-md bg-surface-800 px-3 py-2"
             >
               <span className="text-sm text-surface-200">{domain}</span>
-              <button
-                type="button"
+              <IconButton
+                icon={<LuX className="h-3.5 w-3.5" />}
+                variant="ghost"
+                size="xs"
+                compact
                 onClick={() => removeDomain(domain)}
-                className="rounded p-1 text-surface-400 hover:bg-surface-700 hover:text-surface-200"
-              >
-                <LuX className="h-3.5 w-3.5" />
-              </button>
+              />
             </div>
           ))}
         </div>
 
         <div className="flex gap-2">
-          <input
+          <Field.Control
             type="text"
             value={newDomain}
             onChange={(e) => setNewDomain(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="e.g. example.com"
-            className="flex-1 rounded-md border border-surface-600 bg-surface-800 px-3 py-1.5 text-sm text-surface-200 placeholder:text-surface-500 focus:border-brand-500 focus:outline-none"
+            className="flex-1"
           />
           <Button variant="ghost" size="sm" onClick={addDomain} disabled={!newDomain.trim()}>
             <LuPlus className="h-4 w-4" />
