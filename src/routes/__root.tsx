@@ -11,7 +11,7 @@ import { UpdateNotification, useUpdateCheck } from "@/modules/updater";
 
 function RootLayout() {
   const { data: appInfo } = useAppInfo();
-  const updateState = useUpdateCheck({ checkOnMount: true, delayMs: 3000 });
+  useUpdateCheck({ checkOnMount: true, delayMs: 3000 });
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -53,7 +53,7 @@ function RootLayout() {
     <div className="root flex h-screen flex-col bg-surface-900">
       <TitleBar appInfo={appInfo} />
       <main className="relative flex-1 overflow-hidden">
-        <UpdateNotification updateState={updateState} />
+        <UpdateNotification />
         <Outlet />
       </main>
       <StatusBar />
