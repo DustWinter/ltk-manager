@@ -20,6 +20,7 @@ import { useFilteredProjects } from "../api/useFilteredProjects";
 import { useImportFromModpkg } from "../api/useImportFromModpkg";
 import { usePeekFantome } from "../api/usePeekFantome";
 import { ActionsMenu } from "./ActionsMenu";
+import { WorkshopSortDropdown } from "./WorkshopSortDropdown";
 
 export type ViewMode = "grid" | "list";
 
@@ -84,6 +85,8 @@ export function WorkshopToolbar() {
           className="w-full rounded-lg border border-surface-600 bg-surface-800 py-2 pr-4 pl-10 text-surface-100 placeholder:text-surface-500 focus:border-transparent focus:ring-2 focus:ring-brand-500 focus:outline-none"
         />
       </div>
+
+      <WorkshopSortDropdown />
 
       <div className="flex items-center gap-1">
         <Tooltip content="Grid view">

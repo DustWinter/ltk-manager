@@ -3,6 +3,7 @@ export { useCreateProject } from "./useCreateProject";
 export { useDeleteProject } from "./useDeleteProject";
 export { useFantomeImportProgress } from "./useFantomeImportProgress";
 export { useFilteredProjects } from "./useFilteredProjects";
+export { useWorkshopFilterOptions, type WorkshopFilterOptions } from "./useFilterOptions";
 export { useGitImportProgress } from "./useGitImportProgress";
 export { useImportFromFantome } from "./useImportFromFantome";
 export { useImportFromGitRepo } from "./useImportFromGitRepo";

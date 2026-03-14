@@ -16,10 +16,17 @@ import {
   PackDialog,
   ProjectGrid,
   useFilteredProjects,
+  useWorkshopFilterOptions,
   useWorkshopProjects,
+  WorkshopFilterBar,
   WorkshopToolbar,
 } from "@/modules/workshop";
-import { useWorkshopDialogsStore, useWorkshopSelectionStore, useWorkshopViewStore } from "@/stores";
+import {
+  useHasActiveWorkshopFilters,
+  useWorkshopDialogsStore,
+  useWorkshopSelectionStore,
+  useWorkshopViewStore,
+} from "@/stores";
 
 export const Route = createFileRoute("/workshop/")({
   component: WorkshopIndex,
@@ -27,9 +34,11 @@ export const Route = createFileRoute("/workshop/")({
 
 function WorkshopIndex() {
   const navigate = useNavigate();
-  const { isLoading, error } = useWorkshopProjects();
+  const { data: allProjects = [], isLoading, error } = useWorkshopProjects();
   const searchQuery = useWorkshopViewStore((s) => s.searchQuery);
   const filteredProjects = useFilteredProjects();
+  const filterOptions = useWorkshopFilterOptions(allProjects);
+  const hasActiveFilters = useHasActiveWorkshopFilters();
 
   const openNewProjectDialog = useWorkshopDialogsStore((s) => s.openNewProjectDialog);
   const selectAll = useWorkshopSelectionStore((s) => s.selectAll);
@@ -47,7 +56,7 @@ function WorkshopIndex() {
     if (isLoading) return <LoadingState />;
     if (error) return <ErrorState error={error} />;
     if (filteredProjects.length === 0) {
-      if (searchQuery) return <NoSearchResultsState />;
+      if (searchQuery || hasActiveFilters) return <NoSearchResultsState />;
       return <NoProjectsState />;
     }
     return <ProjectGrid projects={filteredProjects} onEdit={handleEditProject} />;
@@ -56,6 +65,7 @@ function WorkshopIndex() {
   return (
     <div className="flex h-full flex-col">
       <WorkshopToolbar />
+      <WorkshopFilterBar filterOptions={filterOptions} />
       <div className="flex-1 overflow-auto p-6">{renderContent()}</div>
       <PackDialog />
       <BulkPackDialog />

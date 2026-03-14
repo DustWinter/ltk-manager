@@ -13,6 +13,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Button, Checkbox, IconButton, Menu } from "@/components";
 import type { WorkshopProject } from "@/lib/tauri";
+import { getTagLabel } from "@/modules/library";
 import { usePatcherStatus } from "@/modules/patcher";
 import {
   usePatcherSessionStore,
@@ -109,6 +110,7 @@ export function ProjectCard({ project, viewMode, onEdit }: ProjectCardProps) {
           <p className="truncate text-sm text-surface-500">
             v{project.version} • {project.authors.map((a) => a.name).join(", ") || "Unknown author"}
           </p>
+          <ProjectPills project={project} max={3} />
         </div>
 
         {isTesting && (
@@ -246,6 +248,7 @@ export function ProjectCard({ project, viewMode, onEdit }: ProjectCardProps) {
             <span className="line-clamp-1">{project.displayName}</span>
             <LuChevronRight className="h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/title:opacity-100" />
           </h3>
+          <ProjectPills project={project} max={3} className="mb-1" />
           <div className="flex items-center gap-1.5 text-xs text-surface-500">
             <span>v{project.version}</span>
             <span>•</span>
@@ -298,6 +301,44 @@ export function ProjectCard({ project, viewMode, onEdit }: ProjectCardProps) {
           </Menu.Portal>
         </Menu.Root>
       </div>
+    </div>
+  );
+}
+
+function ProjectPills({
+  project,
+  max,
+  className,
+}: {
+  project: WorkshopProject;
+  max: number;
+  className?: string;
+}) {
+  const pills = [
+    ...project.tags.map((t) => ({ label: getTagLabel(t), color: "brand" as const })),
+    ...project.champions.map((c) => ({ label: c, color: "emerald" as const })),
+  ];
+  if (pills.length === 0) return null;
+
+  const visible = pills.slice(0, max);
+  const overflow = pills.length - max;
+
+  const colorClasses = {
+    brand: "bg-brand-500/15 text-brand-400",
+    emerald: "bg-emerald-500/15 text-emerald-400",
+  } as const;
+
+  return (
+    <div className={`flex flex-wrap items-center gap-1 ${className ?? ""}`}>
+      {visible.map((pill) => (
+        <span
+          key={`${pill.color}:${pill.label}`}
+          className={`rounded px-1.5 py-0.5 text-[10px] leading-tight ${colorClasses[pill.color]}`}
+        >
+          {pill.label}
+        </span>
+      ))}
+      {overflow > 0 && <span className="text-[10px] text-surface-500">+{overflow}</span>}
     </div>
   );
 }
