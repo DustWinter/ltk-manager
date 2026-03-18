@@ -69,13 +69,19 @@ function ModDetailsContent({ mod }: { mod: InstalledMod }) {
     <>
       {/* Thumbnail + basic info */}
       <div className="flex gap-4">
-        <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-surface-700 to-surface-800">
+        <div className="relative h-20 w-[8.75rem] shrink-0 overflow-hidden rounded-lg bg-linear-to-br from-surface-700 to-surface-800">
           {thumbnailUrl ? (
-            <img src={thumbnailUrl} alt="" className="h-full w-full object-cover" />
+            <img
+              src={thumbnailUrl}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
           ) : (
-            <span className="text-2xl font-bold text-surface-500">
-              {mod.displayName.charAt(0).toUpperCase()}
-            </span>
+            <div className="flex h-full w-full items-center justify-center">
+              <span className="text-2xl font-bold text-surface-500">
+                {mod.displayName.charAt(0).toUpperCase()}
+              </span>
+            </div>
           )}
         </div>
         <div className="min-w-0 flex-1 space-y-1">
