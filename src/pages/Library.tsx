@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
+import { useToast } from "@/components";
+import { api } from "@/lib/tauri";
 import {
+  checkModForSkinhack,
   DragDropOverlay,
   FilterBar,
   ImportProgressDialog,
@@ -27,6 +30,7 @@ export function Library({ folderId }: LibraryProps = {}) {
   const { data: mods = [], isLoading, error } = useInstalledMods();
   const actions = useLibraryActions();
   const isDragOver = useModFileDrop(actions.handleBulkInstallFiles);
+  const toast = useToast();
 
   const { data: settings } = useSettings();
   const saveSettings = useSaveSettings();
@@ -57,7 +61,24 @@ export function Library({ folderId }: LibraryProps = {}) {
     { preventDefault: true },
   );
 
-  function handleStartPatcher() {
+  async function handleStartPatcher() {
+    // Check enabled mods for skinhacks and force-disable any flagged ones
+    const enabledMods = mods.filter((m) => m.enabled);
+    const flaggedMods = enabledMods.filter((m) => checkModForSkinhack(m) != null);
+
+    for (const mod of flaggedMods) {
+      await api.toggleMod(mod.id, false);
+      toast.warning(
+        "Skinhack Excluded",
+        `"${mod.displayName}" was detected as a skinhack and won't be loaded`,
+      );
+    }
+
+    // If all enabled mods were flagged, don't start the patcher
+    if (flaggedMods.length >= enabledMods.length) {
+      return;
+    }
+
     startPatcher.mutate(
       {},
       {
